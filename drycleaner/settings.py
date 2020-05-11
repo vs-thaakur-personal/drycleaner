@@ -51,7 +51,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'drycleaner.urls'
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'Authentication.User'
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -76,15 +79,18 @@ WSGI_APPLICATION = 'drycleaner.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dcleaner',
+        'NAME': 'dry_cleaner',
         'USER': 'admin',
         'PASSWORD': 'password',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
-
-AUTH_USER_MODEL = 'auth.User'
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

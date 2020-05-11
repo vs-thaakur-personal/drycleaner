@@ -1,5 +1,6 @@
-from django.contrib.auth.models import BaseUserManager
 import uuid
+
+from django.contrib.auth.models import BaseUserManager
 
 
 class UserManager(BaseUserManager):
@@ -18,16 +19,17 @@ class UserManager(BaseUserManager):
                           phone_no=phone_no)
         user.user_id = f'{first_name}_{uuid.uuid1()}'
         user.set_password(password)
-        user.save(user=self.db)
+        user.save(using=self.db)
         return user
 
     def create_superuser(self, first_name, address, phone_no, password):
         user = self.model(first_name=first_name,
                           address=address,
-                          phone_no=phone_no,
+                          phone_no=str(phone_no),
                           password=password)
+        user.user_id = f'{first_name}_{uuid.uuid1()}'
         user.is_admin = True
         user.is_staff = True
         user.is_superuser = True
-        user.save(user=self.db)
+        user.save(using=self.db)
         return user
